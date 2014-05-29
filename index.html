@@ -11,7 +11,7 @@
         <link href="/css/main.css" rel="stylesheet" media="all">
         <style>
             li {
-                width: 10px;
+                width: 190px;
             }
             li.win {
                 background-color: green;
@@ -30,13 +30,18 @@
             <button id="win">Выиграл</button>
             <button id="loose">Проиграл</button>
         </div>
+
+        <div id="shoots">
+            <button id="hit">Попал</button>
+            <button id="miss">Промазал</button>
+        </div>
         <ul id="bar">
 
         </ul>
 
 
         <script type="text/html" id="status_bar">
-            <li class="<%= status %>">d</li>
+            <li class="<%= status %>">d(набрано <%= score %>)(shoot <%= shoot %>)</li>
         </script>
 
     </body>
