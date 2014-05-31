@@ -3,6 +3,8 @@ $(document).on('ready', function() {
     var round_count = 5;
     var scores = {1: 3, 2: 2, 3:1};
     var max_count = 3;
+    var time_round = 3;
+
 
     var Round = Backbone.Model.extend({
         defaults : {
@@ -11,6 +13,7 @@ $(document).on('ready', function() {
             'score': 0,
             'shoot': 0
         },
+
         initialize: function() {
             var model = this;
             this.on("change:status", function() {
@@ -27,7 +30,6 @@ $(document).on('ready', function() {
         },
         setWin: function(){
             this.set('status', 'win');
-            console.log(this.scores, 'scores')
         },
         setLoose: function(){
             this.set('status', 'loose');
@@ -82,6 +84,8 @@ $(document).on('ready', function() {
                 'model': model
             });
             $('#bar').append(view.render());
+
+
         }
     });
 
@@ -96,6 +100,72 @@ $(document).on('ready', function() {
 
         win: function(){
             rounds.setOnModel('win');
+            var duck = $('.duck');
+            var wind_width = $(window).width();
+            var wind_height = $(window).height();
+
+            var changeDuckDirection = function(direction){
+                console.log(direction, 'direction')
+                $('#duck_img').attr('src', '/img/duck_'+direction+'.gif');
+            }
+
+            var animateProccess = function(){
+                    var pos = duck.position();
+                    var speed = 0.4;
+                    var top = Math.round(pos.top);
+                    var left = Math.round(pos.left);
+
+                    var new_top = _.random(0, 700);
+                    var new_left = _.random(0, 800);
+
+                    var direction = 'r';
+                    if(new_left < left){
+                        direction = 'l';
+                    }
+                console.log(new_left < left)
+
+
+
+                    var distance = Math.round(Math.sqrt(Math.pow((+new_top - +top), 2) + Math.pow((+new_left - +left), 2)));
+                    var duration = distance / speed;
+                    changeDuckDirection(direction);
+                    duck.transit({x: new_left, y: new_top, duration: duration, easing: 'linear'});
+            };
+            animateProccess();
+            var animate = setInterval(animateProccess, 1000);
+
+
+
+            var duck_away = function(){
+                changeDuckDirection('r');
+                duck.transit({x: wind_width, y: 0, duration: 500, easing: 'linear'});
+            }
+
+            var duck_down = function(){
+                var left = $('.duck').position().left
+                duck.transit({x: left, y: wind_height, duration: 500, easing: 'linear'});
+            }
+
+            duck.on('click', function(){
+                console.log('click')
+                stopAnimation()
+                duck_down();
+            });
+
+
+
+            var delay = setTimeout(function(){
+                stopAnimation();
+                duck_away();
+            }, +time_round*1000);
+
+            var stopAnimation = function(){
+                duck.clearQueue();
+                duck.stop();
+                clearInterval(animate);
+                clearTimeout(delay);
+
+            }
         },
         loose: function(){
             rounds.setOnModel('loose');
@@ -129,6 +199,7 @@ $(document).on('ready', function() {
         initialize: function(){
             this.model.bind('change', this.render, this);
             this.render();
+
         },
         render: function(){
             return this.$el.html(this.template(this.model.toJSON()));

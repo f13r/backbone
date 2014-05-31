@@ -6,6 +6,7 @@
         <script type="text/javascript" src="/js/json2.js"></script>
         <script type="text/javascript" src="/js/underscore.js"></script>
         <script type="text/javascript" src="/js/jquery.js"></script>
+        <script type="text/javascript" src="/js/jquery.transit.js"></script>
         <script type="text/javascript" src="/js/backbone.js"></script>
         <script type="text/javascript" src="/js/index.js"></script>
         <link href="/css/main.css" rel="stylesheet" media="all">
@@ -15,19 +16,42 @@
             }
             li.win {
                 background-color: green;
+
+
+
             }
+            @-webkit-keyframes 'movement' {
+            from {
+                width: 190px;
+                -webkit-animation-timing-function: easy-in-out;
+
+            }
+            to {
+                width: 500px;
+            }
+            }
+
             li.loose {
                 background-color: red;
             }
             li.not_play {
                 background-color: gray;
             }
+            div.duck {
+                width: 50px;
+                height: 50px;
+                background-color: black;
+                position: absolute;
+            }
         </style>
     </head>
     <body>
+    <div class="duck">
+        <img id="duck_img" src="/img/duck_l.gif"/>
+    </div>
 
         <div id="widget">
-            <button id="win">Выиграл</button>
+            <button id="win" style="width: 200px;">Выиграл</button>
             <button id="loose">Проиграл</button>
         </div>
 
@@ -36,7 +60,7 @@
             <button id="miss">Промазал</button>
         </div>
         <ul id="bar">
-
+<li class="win">1</li>
         </ul>
 
 
