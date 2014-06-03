@@ -3,3 +3,55 @@
 {
      display: none;
 }
+.game{
+    width:900px;
+    height:500px;
+    position:relative;
+    margin:0 auto;
+    overflow: hidden;
+    background-color: #87CEEB;
+    border: solid;
+}
+.grass{
+    position:absolute;
+    background:url(/img/back.png) bottom left no-repeat;
+    width:900px;
+    height:180px;
+    bottom:0px;
+}
+.tree{
+    position:absolute;
+    background:url(/img/tree.png) top left no-repeat;
+    left:70px;
+    bottom:100px;
+    width:173px;
+    height:260px;rder-color
+
+}
+.ammo {
+    color: #ffffff;
+    font-size: 10px;
+    text-transform: uppercase;
+    padding-left: 10px;
+    position: absolute;
+    top: 5px;
+    left: 10px;
+}
+.scoreboard {
+    font-size: 16px;
+    color: #ffffff;
+    position: absolute;
+    right: 10px;
+    font-weight: bold;
+    top: 3px;
+}
+.duckBoard {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: 40px;
+    width: 350px;
+    text-align: right;
+    z-index: 4;
+    float: right;
+}

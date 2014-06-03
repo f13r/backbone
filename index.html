@@ -1,72 +1,135 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-    <head>
-        <title></title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="/js/json2.js"></script>
-        <script type="text/javascript" src="/js/underscore.js"></script>
-        <script type="text/javascript" src="/js/jquery.js"></script>
-        <script type="text/javascript" src="/js/jquery.transit.js"></script>
-        <script type="text/javascript" src="/js/backbone.js"></script>
-        <script type="text/javascript" src="/js/index.js"></script>
-        <link href="/css/main.css" rel="stylesheet" media="all">
-        <style>
-            li {
-                width: 190px;
-            }
-            li.win {
-                background-color: green;
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="/js/json2.js"></script>
+    <script type="text/javascript" src="/js/underscore.js"></script>
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/jquery.keyframes.min.js"></script>
+    <script type="text/javascript" src="/js/backbone.js"></script>
+    <script type="text/javascript" src="/js/backbone.touch.min.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <link href="/css/main.css" rel="stylesheet" media="all">
+    <style>
+        .action {
+            -moz-box-shadow: inset 0px 1px 6px 0px #c1ed9c;
+            -webkit-box-shadow: inset 0px 1px 6px 0px #c1ed9c;
+            box-shadow: inset 0px 1px 6px 0px #c1ed9c;
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #9dce2c), color-stop(1, #8cb82b));
+            background: -moz-linear-gradient(center top, #9dce2c 5%, #8cb82b 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#9dce2c', endColorstr='#8cb82b');
+            background-color: #9dce2c;
+            -webkit-border-top-left-radius: 11px;
+            -moz-border-radius-topleft: 11px;
+            border-top-left-radius: 11px;
+            -webkit-border-top-right-radius: 11px;
+            -moz-border-radius-topright: 11px;
+            border-top-right-radius: 11px;
+            -webkit-border-bottom-right-radius: 11px;
+            -moz-border-radius-bottomright: 11px;
+            border-bottom-right-radius: 11px;
+            -webkit-border-bottom-left-radius: 11px;
+            -moz-border-radius-bottomleft: 11px;
+            border-bottom-left-radius: 11px;
+            text-indent: 0;
+            border: 1px solid #83c41a;
+            display: inline-block;
+            color: #ffffff;
+            font-family: Comic Sans MS;
+            font-size: 15px;
+            font-weight: bold;
+            font-style: normal;
+            height: 50px;
+            line-height: 45px;
+            width: 100px;
+            z-index: 100;
+            text-decoration: none;
+            text-align: center;
+            text-shadow: 0px 1px 2px #689324;
+        }
 
+        .action:hover {
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #8cb82b), color-stop(1, #9dce2c));
+            background: -moz-linear-gradient(center top, #8cb82b 5%, #9dce2c 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#8cb82b', endColorstr='#9dce2c');
+            background-color: #8cb82b;
+        }
 
+        .action:active {
+            position: relative;
+            top: 1px;
+        }
 
-            }
-            @-webkit-keyframes 'movement' {
-            from {
-                width: 190px;
-                -webkit-animation-timing-function: easy-in-out;
+        li {
+            width: 190px;
+        }
 
-            }
-            to {
-                width: 500px;
-            }
-            }
+        li.win {
+            background-color: green;
 
-            li.loose {
-                background-color: red;
-            }
-            li.not_play {
-                background-color: gray;
-            }
-            div.duck {
-                width: 50px;
-                height: 50px;
-                background-color: black;
-                position: absolute;
-            }
-        </style>
-    </head>
-    <body>
-    <div class="duck">
-        <img id="duck_img" src="/img/duck_l.gif"/>
+        }
+
+        li.loose {
+            background-color: red;
+        }
+
+        li.not_play {
+            background-color: gray;
+        }
+
+        div.duck {
+            width: 68px;
+            height: 66px;
+            position: absolute;
+            left: 0;
+            z-index: 30000;
+        }
+
+        div.start_button {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+        }
+
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game" class="game">
+    <div class="gameinfo ammo" id="ammo" style="display: block;">
+        <strong>Shots: </strong>
+        <img src="/img/bullet.png" id="shot1" align="absmiddle">
+        <img src="/img/bullet.png" id="shot2" align="absmiddle">
+        <img src="/img/bullet.png" id="shot3" align="absmiddle">
     </div>
+    <div class="gameinfo scoreboard" id="scoreboard">0</div>
+    <div id="tree" class="tree"></div>
+    <div id="grass" class="grass"></div>
+    <div class="start_button">
+        <button class="action">Start game</button>
+    </div>
+    <div class="duck">
 
-        <div id="widget">
-            <button id="win" style="width: 200px;">Выиграл</button>
-            <button id="loose">Проиграл</button>
-        </div>
+    </div>
+    <div class="gameinfo duckBoard" id="duckBoard" style="display: block;">
 
-        <div id="shoots">
-            <button id="hit">Попал</button>
-            <button id="miss">Промазал</button>
-        </div>
-        <ul id="bar">
-<li class="win">1</li>
-        </ul>
+    </div>
+</div>
 
 
-        <script type="text/html" id="status_bar">
-            <li class="<%= status %>">d(набрано <%= score %>)(shoot <%= shoot %>)</li>
-        </script>
+<script type="text/html" id="status_bar">
+    <span><img src="/img/<%= status %>.png"></span>
+</script>
 
-    </body>
+<script type="text/html" id="duck">
+    <img id="duck_img" src="/img/duck_l.gif"/>
+</script>
+
+</body>
 </html>
