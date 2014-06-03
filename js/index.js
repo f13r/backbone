@@ -258,7 +258,7 @@ $(document).on('ready', function () {
         animateProccess: function () {
 
             if (this.setRoundBind()) {
-                console.log($('#shot'))
+                this.current_round.set('status', 'play')
                 $('#ammo').children().show();
                 this.over_round = false;
                 var frame = {};
